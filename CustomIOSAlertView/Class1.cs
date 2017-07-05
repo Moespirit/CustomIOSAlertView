@@ -43,9 +43,9 @@ namespace Moespirit.Xamarin.iOSControls
             CloseOnTouchUpOutside = false;
             ButtonTitles = new NSString[] { new NSString("Close") };
             UIDevice.CurrentDevice.BeginGeneratingDeviceOrientationNotifications();
-            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("UIDeviceOrientationDidChangeNotification"), deviceOrientationDidChange, null);
-            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("UIKeyboardWillShowNotification "), keyboardWillShow, null);
-            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("UIKeyboardWillHideNotification "), keyboardWillHide, null);
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString(UIDevice.OrientationDidChangeNotification), deviceOrientationDidChange, null);
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString(UIKeyboard.WillShowNotification), keyboardWillShow, null);
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString(UIKeyboard.WillHideNotification), keyboardWillHide, null);
         }
         static readonly Version NSFoundationVersionNumber_iOS_7_1 = new Version(7, 1);
         public void Show()
@@ -308,9 +308,9 @@ namespace Moespirit.Xamarin.iOSControls
         {
             base.Dispose(disposing);
             UIDevice.CurrentDevice.EndGeneratingDeviceOrientationNotifications();
-            NSNotificationCenter.DefaultCenter.RemoveObserver(this, "UIDeviceOrientationDidChangeNotification", null);
-            NSNotificationCenter.DefaultCenter.RemoveObserver(this, "UIKeyboardWillHideNotification ", null);
-            NSNotificationCenter.DefaultCenter.RemoveObserver(this, "UIKeyboardWillShowNotification ", null);
+            NSNotificationCenter.DefaultCenter.RemoveObserver(this, UIDevice.OrientationDidChangeNotification, null);
+            NSNotificationCenter.DefaultCenter.RemoveObserver(this, UIKeyboard.WillHideNotification, null);
+            NSNotificationCenter.DefaultCenter.RemoveObserver(this, UIKeyboard.WillShowNotification, null);
 
         }
 
@@ -353,7 +353,8 @@ namespace Moespirit.Xamarin.iOSControls
             Animate(0.2f, 0.0, UIViewAnimationOptions.TransitionNone, () =>
             {
                 CGSize dialogSize = countDialogSize();
-                CGSize keyboardSize = ((NSValue)notification.UserInfo.ObjectForKey(UIKeyboard.FrameBeginUserInfoKey)).CGSizeValue;
+                var nsv = ((NSValue)notification.UserInfo.ObjectForKey(UIKeyboard.FrameBeginUserInfoKey));
+                //CGSize keyboardSize = nsv == null ? CGSize.Empty : nsv.CGRectValue.Size;
                 Frame = new CGRect(0, 0, screenWidth, screenHeight);
                 DialogView.Frame = new CGRect((screenWidth - dialogSize.Width) / 2, (screenHeight - keyboardSize.Height - dialogSize.Height) / 2, dialogSize.Width, dialogSize.Height);
             }, null);
@@ -375,11 +376,12 @@ namespace Moespirit.Xamarin.iOSControls
                 changeOrientationForIOS8(notification);
             }
         }
+        CGSize keyboardSize;//added by yinyue200
         void keyboardWillShow(NSNotification notification)
         {
             var screenSize = countScreenSize();
             var dialogSize = countDialogSize();
-            var keyboardSize = ((NSValue)notification.UserInfo.ObjectForKey(UIKeyboard.FrameBeginUserInfoKey)).CGRectValue;
+            keyboardSize = ((NSValue)notification.UserInfo.ObjectForKey(UIKeyboard.FrameBeginUserInfoKey)).CGRectValue.Size;
 
             UIInterfaceOrientation interfaceOrientation = UIApplication.SharedApplication.StatusBarOrientation;
             switch (interfaceOrientation)
@@ -401,6 +403,7 @@ namespace Moespirit.Xamarin.iOSControls
         }
         void keyboardWillHide(NSNotification notification)
         {
+            keyboardSize = CGSize.Empty;//added by yinyue200
             var screenSize = countScreenSize();
             var dialogSize = countDialogSize();
 

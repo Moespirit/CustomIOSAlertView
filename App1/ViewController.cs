@@ -36,6 +36,7 @@ namespace App1
         {
             UIView demoView = new UIView(new CGRect(0, 0, 290, 200));
             demoView.BackgroundColor = UIColor.Red;
+            demoView.AddSubview(new UITextField() { Text = "aaa" ,BackgroundColor=UIColor.White,Frame=new CGRect(new CGPoint(10,10),new CGSize(100,50))});
     return demoView;
 }
 }
