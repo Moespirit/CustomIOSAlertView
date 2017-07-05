@@ -7,6 +7,14 @@ using CoreAnimation;
 
 namespace Moespirit.Xamarin.iOSControls
 {
+    public class CustomIOSAlertViewButtonClickedEventArgs : EventArgs
+    {
+        public int ButtonId { get; internal set; }
+    }
+    public class CustomIOSAlertViewClosingEventArgs : EventArgs
+    {
+        public bool Cancel { get; set; }
+    }
     public class CustomIOSAlertView : UIView
     {
         static readonly Version NSFoundationVersionNumber = new Version(UIDevice.CurrentDevice.SystemVersion);
@@ -22,8 +30,10 @@ namespace Moespirit.Xamarin.iOSControls
         public UIView ParentView { get; set; }
         public UIView ContainerView { get; set; }
         public UIView DialogView { get; set; }
-        public event Action<CustomIOSAlertView, int> clickedButtonAtIndex;
-        public NSString[] ButtonTitles { get; set; }
+        public event EventHandler<CustomIOSAlertViewClosingEventArgs> Closing;
+        public event EventHandler Closing;
+        public event EventHandler<CustomIOSAlertViewButtonClickedEventArgs> ButtonClicked;
+        public string[] ButtonTitles { get; set; }
         public bool UseMotionEffects { get; set; }
         public bool CloseOnTouchUpOutside { get; set; }
         public CustomIOSAlertView()
@@ -41,7 +51,7 @@ namespace Moespirit.Xamarin.iOSControls
             Frame = new CGRect(0, 0, UIScreen.MainScreen.Bounds.Size.Width, UIScreen.MainScreen.Bounds.Size.Height);
             UseMotionEffects = false;
             CloseOnTouchUpOutside = false;
-            ButtonTitles = new NSString[] { new NSString("Close") };
+            ButtonTitles = new string[] { "Close" };
             UIDevice.CurrentDevice.BeginGeneratingDeviceOrientationNotifications();
             NSNotificationCenter.DefaultCenter.AddObserver(new NSString(UIDevice.OrientationDidChangeNotification), deviceOrientationDidChange, null);
             NSNotificationCenter.DefaultCenter.AddObserver(new NSString(UIKeyboard.WillShowNotification), keyboardWillShow, null);
@@ -120,9 +130,9 @@ namespace Moespirit.Xamarin.iOSControls
         public void customIOS7dialogButtonTouchUpInside(object sender, EventArgs index)
         {
             var ciav = (UIButton)sender;
-            if(clickedButtonAtIndex != null)
+            if(ButtonClicked != null)
             {
-                clickedButtonAtIndex.Invoke(this, (int)ciav.Tag);
+                ButtonClicked?.Invoke(this, new CustomIOSAlertViewButtonClickedEventArgs() { ButtonId= (int)ciav.Tag });
             }
             else
             {
@@ -136,6 +146,10 @@ namespace Moespirit.Xamarin.iOSControls
         }
         public void Close()
         {
+            var ea = new CustomIOSAlertViewClosingEventArgs();
+            Closing?.Invoke(this, ea);
+            if (ea.Cancel)
+                return;
             CATransform3D currentTransform = DialogView.Layer.Transform;
 
             if(NSFoundationVersionNumber<=NSFoundationVersionNumber_iOS_7_1)
@@ -160,6 +174,9 @@ namespace Moespirit.Xamarin.iOSControls
                     v.RemoveFromSuperview();
                 }
                 RemoveFromSuperview();
+
+                Closed?.Invoke(this, EventArgs.Empty);
+
             });
         }
         void setSubView(UIView subView)
