@@ -15,7 +15,7 @@ As a solution, this class creates an iOS-style dialog which you can extend with 
 ![A demo screen](https://github.com/wimagguc/ios-custom-alertview/blob/master/Docs/screen.png?raw=true)
 
 ## Install
-
+[![NuGet](https://img.shields.io/nuget/v/Moespirit.Xamarin.iOSControls.CustomIOSAlertView.svg?style=flat)](https://www.nuget.org/packages/Moespirit.Xamarin.iOSControls.CustomIOSAlertView/)
 
 ## Change notes
 
