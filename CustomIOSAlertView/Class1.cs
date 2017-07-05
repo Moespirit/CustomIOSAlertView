@@ -353,7 +353,7 @@ namespace Moespirit.Xamarin.iOSControls
             Animate(0.2f, 0.0, UIViewAnimationOptions.TransitionNone, () =>
             {
                 CGSize dialogSize = countDialogSize();
-                var nsv = ((NSValue)notification.UserInfo.ObjectForKey(UIKeyboard.FrameBeginUserInfoKey));
+                //var nsv = ((NSValue)notification.UserInfo.ObjectForKey(UIKeyboard.FrameBeginUserInfoKey));
                 //CGSize keyboardSize = nsv == null ? CGSize.Empty : nsv.CGRectValue.Size;
                 Frame = new CGRect(0, 0, screenWidth, screenHeight);
                 DialogView.Frame = new CGRect((screenWidth - dialogSize.Width) / 2, (screenHeight - keyboardSize.Height - dialogSize.Height) / 2, dialogSize.Width, dialogSize.Height);
