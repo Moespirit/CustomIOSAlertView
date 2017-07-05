@@ -1,4 +1,5 @@
 ﻿using CoreGraphics;
+using Moespirit.Xamarin.iOSControls;
 using System;
 using System.Threading.Tasks;
 using UIKit;
@@ -26,7 +27,7 @@ namespace App1
         {
             base.ViewDidAppear(animated);
             await Task.Delay(500);
-            CustomIOSAlertView.CustomIOSAlertView ciav = new CustomIOSAlertView.CustomIOSAlertView();
+            CustomIOSAlertView ciav = new CustomIOSAlertView();
             ciav.ContainerView = createDemoView();
             ciav.Show();
         }

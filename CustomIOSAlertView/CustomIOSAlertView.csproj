@@ -8,7 +8,7 @@
     <ProjectGuid>{776BE27F-C415-40A1-82D1-8CD93EFF2DD5}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>CustomIOSAlertView</RootNamespace>
+    <RootNamespace>Moespirit.Xamarin.iOSControls</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>CustomIOSAlertView</AssemblyName>
   </PropertyGroup>

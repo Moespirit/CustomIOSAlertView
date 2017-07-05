@@ -5,7 +5,7 @@ using CoreGraphics;
 using System.Linq;
 using CoreAnimation;
 
-namespace CustomIOSAlertView
+namespace Moespirit.Xamarin.iOSControls
 {
     public class CustomIOSAlertView : UIView
     {
