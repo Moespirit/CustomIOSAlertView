@@ -31,7 +31,7 @@ namespace Moespirit.Xamarin.iOSControls
         public UIView ContainerView { get; set; }
         public UIView DialogView { get; set; }
         public event EventHandler<CustomIOSAlertViewClosingEventArgs> Closing;
-        public event EventHandler Closing;
+        public event EventHandler Closed;
         public event EventHandler<CustomIOSAlertViewButtonClickedEventArgs> ButtonClicked;
         public string[] ButtonTitles { get; set; }
         public bool UseMotionEffects { get; set; }
