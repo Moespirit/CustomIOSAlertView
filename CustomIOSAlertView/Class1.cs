@@ -22,7 +22,7 @@ namespace Moespirit.Xamarin.iOSControls
         public UIView ParentView { get; set; }
         public UIView ContainerView { get; set; }
         public UIView DialogView { get; set; }
-        public event Action<CustomIOSAlertView, int> OnButtonTouchUpInside;
+        public event Action<CustomIOSAlertView, int> clickedButtonAtIndex;
         public NSString[] ButtonTitles { get; set; }
         public bool UseMotionEffects { get; set; }
         public bool CloseOnTouchUpOutside { get; set; }
@@ -120,9 +120,14 @@ namespace Moespirit.Xamarin.iOSControls
         public void customIOS7dialogButtonTouchUpInside(object sender, EventArgs index)
         {
             var ciav = (UIButton)sender;
-            customIOS7dialogButtonTouchUpInside(this, (int)ciav.Tag);
-
-            OnButtonTouchUpInside?.Invoke(this, (int)ciav.Tag);
+            if(clickedButtonAtIndex != null)
+            {
+                clickedButtonAtIndex.Invoke(this, (int)ciav.Tag);
+            }
+            else
+            {
+                customIOS7dialogButtonTouchUpInside(this, (int)ciav.Tag);
+            }
         }
         public void customIOS7dialogButtonTouchUpInside(CustomIOSAlertView sender, int index)
         {
