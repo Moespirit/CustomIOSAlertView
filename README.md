@@ -29,13 +29,13 @@ As a solution, this class creates an iOS-style dialog which you can extend with 
 
 1. Create the UIView object `changed`
 
-    ```
+    ```csharp
     CustomIOSAlertView alertView = new CustomIOSAlertView();
     ```
 
 2. Add some custom content to the alert view (optional)
 
-    ```
+    ```csharp
     UIView customView ..;
 
     alertView.ContainerView=customView;
@@ -43,7 +43,7 @@ As a solution, this class creates an iOS-style dialog which you can extend with 
 
 3. Display the dialog
 
-    ```
+    ```csharp
     alertView.Show();
     ```
 
@@ -51,25 +51,25 @@ As a solution, this class creates an iOS-style dialog which you can extend with 
 
 * Close the dialog
 
-    ```
+    ```csharp
     alertView.Close();
     ```
 
 * To add more buttons, pass a list of titles
 
-    ```
+    ```csharp
     alertView.ButtonTitles=new NSString[]{new NSString("Button1"),new NSString("Button2"),new NSString("Button3")}
     ```
 
 * You can remove all buttons by passing nil
 
-    ```
+    ```csharp
     alertView.ButtonTitles=null;
     ```
 
 * You can enable or disable the iOS7 parallax effects on the alert view
 
-    ```
+    ```csharp
     alertView.UseMotionEffects=true;
     ```
 
@@ -78,14 +78,14 @@ As a solution, this class creates an iOS-style dialog which you can extend with 
 
     Add the delegate methods:
 
-    ```
-    alertView.OnButtonTouchUpInside+=(sender,intargs)=>{...};
+    ```csharp
+    alertView.ButtonClicked+=(sender,intargs)=>{...};
     ```
 
 * Handle button clicks with a code block
 
-    ```
-alertView.OnButtonTouchUpInside+=(sender,intargs)=>{alertView.Close()};
+    ```csharp
+    alertView.ButtonClicked+=(sender,intargs)=>{alertView.Close()};
     ```
 
 
